@@ -54,6 +54,7 @@ persistence:
 ingress:
   enabled: true
   className: alb
+  loadBalancerName: apps-ingress
   weatherHost: weather.omerlevy03.com
   solitaireHost: solitaire.omerlevy03.com
   certificateArn: arn:aws:acm:us-east-1:960828421635:certificate/354e07ad-76e2-4921-a459-85fe48702d1f
