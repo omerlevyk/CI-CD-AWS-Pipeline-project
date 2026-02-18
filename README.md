@@ -6,7 +6,7 @@ This repository stores Kubernetes application deployment state for ArgoCD.
 
 Document these values and keep them updated:
 
-- Repo URL: `https://REPLACE_ME_WITH_YOUR_GITOPS_REPO_URL.git`
+- Repo URL: `https://gitlab.omerlevy03.com/omerlevyk/gitops.git`
 - Branch: `main`
 - Chart path: `apps/weather-stack/chart`
 - Values file (dev): `apps/weather-stack/envs/dev-values.yaml`
