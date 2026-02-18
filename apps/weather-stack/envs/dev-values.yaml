@@ -2,7 +2,7 @@ weather:
   replicas: 4
   image:
     repository: omerlevyk/weather_app_private
-    tag: v1.0.0
+    tag: v1.0.1-20260218-1
     pullPolicy: IfNotPresent
   service:
     type: NodePort
@@ -16,7 +16,7 @@ solitaire:
   replicas: 4
   image:
     repository: chimenesjr/solitaire
-    tag: nginx
+    tag: v1.0.1-20260218-1
     pullPolicy: IfNotPresent
   service:
     type: NodePort
