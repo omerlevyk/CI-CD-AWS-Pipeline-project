@@ -1,0 +1,59 @@
+weather:
+  replicas: 4
+  image:
+    repository: omerlevyk/weather_app-app
+    tag: v1.0.0
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 5000
+    nodePort: 32300
+  bgColorConfigMap: bg-color-blue
+  historyMountPath: /app/history
+
+solitaire:
+  replicas: 4
+  image:
+    repository: chimenesjr/solitaire
+    tag: nginx
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 80
+    nodePort: 32400
+
+configMaps:
+  blue:
+    name: bg-color-blue
+    bgColor: blue
+  green:
+    name: bg-color-green
+    bgColor: green
+
+persistence:
+  enabled: true
+  storageClass:
+    name: weather-efs-sc-v1
+    isDefaultClass: false
+    provisioner: efs.csi.aws.com
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      provisioningMode: efs-ap
+      fileSystemId: fs-xxxxxxxx
+      directoryPerms: "700"
+  pvc:
+    name: weather-history-pvc-efs-v1
+    storageClass: weather-efs-sc-v1
+    size: 5Gi
+    accessModes:
+      - ReadWriteMany
+
+ingress:
+  enabled: false
+  className: alb
+  weatherHost: weather.example.com
+  solitaireHost: solitaire.example.com
+  certificateArn: ""

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configMaps.blue.name }}
+data:
+  BG_COLOR: {{ .Values.configMaps.blue.bgColor | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configMaps.green.name }}
+data:
+  BG_COLOR: {{ .Values.configMaps.green.bgColor | quote }}
