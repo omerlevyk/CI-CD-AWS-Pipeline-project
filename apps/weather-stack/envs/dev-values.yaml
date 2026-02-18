@@ -1,5 +1,5 @@
 weather:
-  replicas: 4
+  replicas: 1
   image:
     repository: omerlevyk/weather_app_private
     tag: v1.0.1-20260218-1
@@ -13,7 +13,7 @@ weather:
   historyMountPath: /app/history
 
 solitaire:
-  replicas: 4
+  replicas: 1
   image:
     repository: chimenesjr/solitaire
     tag: nginx
