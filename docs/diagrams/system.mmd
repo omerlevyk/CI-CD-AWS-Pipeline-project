@@ -1,0 +1,74 @@
+flowchart TB
+
+Internet((Internet))
+Cloudflare[Cloudflare DNS]
+
+Internet --> Cloudflare
+
+subgraph VPC["AWS VPC"]
+
+  subgraph PublicSubnetA["Public Subnet A"]
+    ALB[Application Load Balancer]
+    NAT[NAT Gateway]
+  end
+
+  subgraph PublicSubnetB["Public Subnet B"]
+    IGW[Internet Gateway]
+  end
+
+  PublicRouteTable[Public Route Table]
+
+  subgraph PrivateSubnetA["Private Subnet A"]
+    GitLab[GitLab EC2]
+    JenkinsController[Jenkins Controller EC2]
+    EKSNode1[EKS Worker Node 1]
+  end
+
+  subgraph PrivateSubnetB["Private Subnet B"]
+    JenkinsAgent[Jenkins Agent EC2]
+    EKSNode2[EKS Worker Node 2]
+  end
+
+  PrivateRouteTable[Private Route Table]
+
+  subgraph EKSCluster["Amazon EKS Cluster"]
+    ALBController[AWS Load Balancer Controller]
+    Ingress[Weather App Ingress]
+    Deployment[Weather App Deployment]
+    Service[Weather App NodePort Service]
+    Pod1[Weather Pod 1]
+    Pod2[Weather Pod 2]
+  end
+end
+
+Cloudflare --> ALB
+Cloudflare --> IngressALB[Ingress ALB]
+IGW --> ALB
+ALB -->|gitlab.<domain>| GitLab
+ALB -->|jenkins.<domain>| JenkinsController
+ALB -->|weather.<domain> to NodePort| EKSNode1
+ALB -->|weather.<domain> to NodePort| EKSNode2
+IngressALB --> Ingress
+ALBController --> Ingress
+
+EKSNode1 --> Service
+EKSNode2 --> Service
+Ingress --> Service
+Deployment --> Pod1
+Deployment --> Pod2
+Service --> Pod1
+Service --> Pod2
+
+PublicSubnetA --> PublicRouteTable
+PublicSubnetB --> PublicRouteTable
+PublicRouteTable --> IGW
+
+PrivateSubnetA --> PrivateRouteTable
+PrivateSubnetB --> PrivateRouteTable
+PrivateRouteTable --> NAT
+NAT --> IGW
+
+GitLab --> JenkinsController
+JenkinsController --> JenkinsAgent
+JenkinsAgent -->|Build & Push Image| DockerHub[(DockerHub)]
+JenkinsAgent -->|Deploy via kubectl| EKSCluster

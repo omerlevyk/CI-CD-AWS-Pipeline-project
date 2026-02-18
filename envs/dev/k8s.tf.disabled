@@ -1,0 +1,19 @@
+module "k8s" {
+  source = "../../modules/k8s"
+
+  weather_image_repository   = var.weather_app_image_repository
+  weather_image_tag          = var.weather_app_image_tag
+  weather_replicas           = var.weather_app_replicas
+  weather_container_port     = var.weather_app_container_port
+  weather_service_port       = var.weather_app_service_port
+  weather_node_port          = var.weather_node_port
+  weather_bg_color_configmap = "bg-color-blue"
+  solitaire_node_port        = var.solitaire_node_port
+  efs_file_system_id         = module.infrastructure.efs_file_system_id
+  ingress_enabled            = var.weather_ingress_enabled
+  ingress_host               = local.weather_ingress_host
+  solitaire_ingress_host     = local.solitaire_ingress_host
+  ingress_certificate_arn    = var.certificate_arn
+
+  depends_on = [module.infrastructure, module.alb, module.alb_controller]
+}
