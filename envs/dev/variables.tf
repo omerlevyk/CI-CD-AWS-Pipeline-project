@@ -107,3 +107,8 @@ variable "allowed_client_cidr" {
   type        = string
   description = "Public client CIDR allowed to access the shared ALB (for example 203.0.113.10/32)"
 }
+
+variable "manage_alb_controller_with_terraform" {
+  type    = bool
+  default = true
+}

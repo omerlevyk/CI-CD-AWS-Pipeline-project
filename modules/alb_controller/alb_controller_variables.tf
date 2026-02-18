@@ -27,3 +27,8 @@ variable "service_account_name" {
   type    = string
   default = "aws-load-balancer-controller"
 }
+
+variable "manage_controller_with_terraform" {
+  type    = bool
+  default = true
+}

@@ -30,11 +30,12 @@ module "alb" {
 module "alb_controller" {
   source = "../../modules/alb_controller"
 
-  cluster_name      = module.infrastructure.cluster_name
-  region            = var.aws_region
-  vpc_id            = module.infrastructure.vpc_id
-  oidc_provider_arn = module.infrastructure.oidc_provider_arn
-  oidc_provider_url = module.infrastructure.cluster_oidc_issuer_url
+  cluster_name                     = module.infrastructure.cluster_name
+  region                           = var.aws_region
+  vpc_id                           = module.infrastructure.vpc_id
+  oidc_provider_arn                = module.infrastructure.oidc_provider_arn
+  oidc_provider_url                = module.infrastructure.cluster_oidc_issuer_url
+  manage_controller_with_terraform = var.manage_alb_controller_with_terraform
 }
 
 module "dns_gitlab" {

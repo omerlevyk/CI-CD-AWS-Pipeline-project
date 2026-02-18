@@ -14,3 +14,4 @@ allowed_client_cidr  = "213.57.121.34/32"
 
 weather_app_image_repository = "omerlevyk/weather_app_private"
 weather_app_image_tag        = "v1.0.0"
+manage_alb_controller_with_terraform = true

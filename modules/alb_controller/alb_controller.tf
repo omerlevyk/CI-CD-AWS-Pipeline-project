@@ -43,6 +43,7 @@ resource "kubernetes_service_account_v1" "alb_controller" {
 }
 
 resource "helm_release" "aws_load_balancer_controller" {
+  count      = var.manage_controller_with_terraform ? 1 : 0
   name       = "aws-load-balancer-controller"
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
