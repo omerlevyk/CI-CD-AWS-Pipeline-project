@@ -6,7 +6,7 @@ metadata:
 spec:
   project: apps
   source:
-    repoURL: https://REPLACE_ME_WITH_YOUR_GITOPS_REPO_URL.git
+    repoURL: https://gitlab.omerlevy03.com/omerlevyk/gitops.git
     targetRevision: main
     path: apps/weather-stack/chart
     helm:
