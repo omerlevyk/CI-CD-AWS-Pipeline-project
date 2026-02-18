@@ -1,0 +1,81 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Forecast</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: {{ bg_color }};" class="text-center p-4">
+    <div class="container mt-5">
+        <h1 class="mb-4 fw-bold">The Weather Web App by Omer</h1>
+        <div class="mb-3">
+            <a class="btn btn-outline-primary" href="/history">Search History</a>
+        </div>
+
+        <form action="/" method="POST" class="d-flex justify-content-center mb-4">
+            <input type="text" name="city" class="form-control w-25" placeholder="Enter city name" required>
+            <button type="submit" class="btn btn-primary ms-2">Search</button>
+            <button type="button" id="download-sky" class="btn btn-success ms-2">Sky Image</button>
+            <button type="button" id="save-weather" class="btn btn-warning ms-2">Save Weather</button>
+        </form>
+
+        {% if error %}
+            <div class="alert alert-danger w-50 mx-auto">{{ error }}</div>
+        {% endif %}
+
+        {% if location %}
+            <h2 class="mt-4">{{ location.city }}, {{ location.country }}</h2>
+            <ul class="list-group w-50 mx-auto mt-3">
+                {% for day in weather %}
+                <li class="list-group-item">
+                    <strong>{{ day.day_name }} {{ day.pretty_date }}</strong>
+                    Day: {{ day.day_temp }}°C |
+                    Night: {{ day.night_temp }}°C |
+                    Humidity: {{ day.humidity }}%
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <script>
+    const skyBtn = document.getElementById("download-sky");
+    if (skyBtn) {
+        skyBtn.addEventListener("click", async () => {
+            const res = await fetch("/api/sky");
+            const data = await res.json();
+            const a = document.createElement("a");
+            a.href = data.url;
+            a.download = "sky.jpg";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+    }
+
+    const saveBtn = document.getElementById("save-weather");
+    if (saveBtn) {
+        saveBtn.addEventListener("click", async () => {
+            const city = "{{ location.city if location else '' }}";
+            const country = "{{ location.country if location else '' }}";
+            const weather = {{ weather|tojson if weather else '[]' }};
+
+            if (!city) {
+                alert("Search for a city first!");
+                return;
+            }
+
+            await fetch("/api/save", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ city, country, weather })
+            });
+
+            alert("Weather saved to DynamoDB!");
+        });
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

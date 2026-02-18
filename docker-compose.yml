@@ -1,0 +1,20 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:18.7.0-ce.0
+    container_name: gitlab
+    restart: always
+    hostname: 'gitlab.omerlevy03.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.omerlevy03.com'
+        letsencrypt['enable'] = false
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+    ports:
+      - '80:80'
+      - '2222:22'
+    volumes:
+      - /home/ubuntu/gitlab/config:/etc/gitlab
+      - /home/ubuntu/gitlab/logs:/var/log/gitlab
+      - /home/ubuntu/gitlab/data:/var/opt/gitlab
+

@@ -1,0 +1,197 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.6">
+  <diagram name="Page-1" id="w5MfoxhVC-fSIE5dU-iv">
+    <mxGraphModel dx="951" dy="475" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-45" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;gradientColor=none;" value="" vertex="1">
+          <mxGeometry height="950" width="680" x="70" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-2" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="169.8" y="405" />
+            </Array>
+            <mxPoint x="169.8" y="355" as="sourcePoint" />
+            <mxPoint x="169.8" y="435" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-4" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="169.8" y="515" as="sourcePoint" />
+            <mxPoint x="169.8" y="595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-5" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="exceptions" vertex="1">
+          <mxGeometry height="78" width="160" x="90" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-6" parent="2iQ28U6xLyETjHNEr8ln-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="APIError()" vertex="1">
+          <mxGeometry height="26" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-7" parent="2iQ28U6xLyETjHNEr8ln-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="DataParsongError()" vertex="1">
+          <mxGeometry height="26" width="160" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-9" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="user_input()" vertex="1">
+          <mxGeometry height="80" width="160" x="90" y="435" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-10" parent="2iQ28U6xLyETjHNEr8ln-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="get input from the user and vaildate it" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-12" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="169.8" y="675" as="sourcePoint" />
+            <mxPoint x="169.8" y="755" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-14" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="get_api()" vertex="1">
+          <mxGeometry height="80" width="160" x="90" y="595" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-15" parent="2iQ28U6xLyETjHNEr8ln-14" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="get the geocode and weather API from meteo" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-20" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="169.8" y="835" as="sourcePoint" />
+            <mxPoint x="169.8" y="915" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-22" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="filter_data()" vertex="1">
+          <mxGeometry height="80" width="160" x="90" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-23" parent="2iQ28U6xLyETjHNEr8ln-22" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="convert row API data into list of 7 structured entries organized by day&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-25" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;text-align: left;&quot;&gt;render_template()&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="90" y="915" as="geometry" />
+        </mxCell>
+        <mxCell id="2iQ28U6xLyETjHNEr8ln-26" parent="2iQ28U6xLyETjHNEr8ln-25" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;text-align: center;&quot;&gt;view at Flask interface&lt;/span&gt;" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-4" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="testing_input()" vertex="1">
+          <mxGeometry height="80" width="160" x="330" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-9" edge="1" parent="1" source="2iQ28U6xLyETjHNEr8ln-10" style="endArrow=classic;html=1;rounded=0;entryX=-0.004;entryY=0.19;entryDx=0;entryDy=0;exitX=1.006;exitY=0.267;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" target="IjoorjUNgzUWlrzSo2vu-5" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="475" />
+              <mxPoint x="290" y="435" />
+            </Array>
+            <mxPoint x="290" y="474" as="sourcePoint" />
+            <mxPoint x="370" y="455" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-18" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="fatch_geocode()" vertex="1">
+          <mxGeometry height="80" width="160" x="330" y="535" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-19" parent="IjoorjUNgzUWlrzSo2vu-18" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="gets coordinate from a city name from Geocode API with api_fatch()" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-21" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="625" />
+              <mxPoint x="290" y="575" />
+            </Array>
+            <mxPoint x="250" y="625" as="sourcePoint" />
+            <mxPoint x="330" y="575" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-22" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="fatch_weather_api()" vertex="1">
+          <mxGeometry height="80" width="160" x="330" y="655" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-23" parent="IjoorjUNgzUWlrzSo2vu-22" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="gets the daily and hourly weather via coordinates&amp;nbsp;" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-25" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.267;entryDx=0;entryDy=0;exitX=1;exitY=0.929;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" target="IjoorjUNgzUWlrzSo2vu-23" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="645" />
+              <mxPoint x="290" y="695" />
+            </Array>
+            <mxPoint x="250" y="645.154" as="sourcePoint" />
+            <mxPoint x="390" y="625" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-26" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="api_fatch()" vertex="1">
+          <mxGeometry height="80" width="160" x="570" y="595" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-27" parent="IjoorjUNgzUWlrzSo2vu-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="makes a GET request and get the JSON file for a requested API" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-30" edge="1" parent="1" source="IjoorjUNgzUWlrzSo2vu-19" style="endArrow=classic;html=1;rounded=0;entryX=-0.001;entryY=0.076;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.005;exitY=0.266;exitDx=0;exitDy=0;exitPerimeter=0;" target="IjoorjUNgzUWlrzSo2vu-27" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="575" />
+              <mxPoint x="530" y="625" />
+            </Array>
+            <mxPoint x="500" y="575" as="sourcePoint" />
+            <mxPoint x="570" y="635" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-31" edge="1" parent="1" source="IjoorjUNgzUWlrzSo2vu-23" style="endArrow=classic;html=1;rounded=0;entryX=-0.002;entryY=-0.087;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.002;exitY=0.267;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="695" />
+              <mxPoint x="530" y="645" />
+            </Array>
+            <mxPoint x="500" y="715" as="sourcePoint" />
+            <mxPoint x="569.6800000000001" y="644.7379999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-32" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="extract_humidity_map()" vertex="1">
+          <mxGeometry height="80" width="160" x="330" y="775" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-33" parent="IjoorjUNgzUWlrzSo2vu-32" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="returns a dict of humidity for each day at 8:00 AM from the hourly data" vertex="1">
+          <mxGeometry height="54" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-35" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=-0.001;entryY=0.265;entryDx=0;entryDy=0;entryPerimeter=0;" target="IjoorjUNgzUWlrzSo2vu-33" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="795" />
+              <mxPoint x="290" y="815" />
+            </Array>
+            <mxPoint x="250" y="795" as="sourcePoint" />
+            <mxPoint x="370" y="775" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-36" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="build_day_entry()" vertex="1">
+          <mxGeometry height="100" width="160" x="330" y="875" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-37" parent="IjoorjUNgzUWlrzSo2vu-36" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="build a final dict that holds the data for the HTML file: day, date, night temp, day temp and humidity" vertex="1">
+          <mxGeometry height="74" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-39" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=-0.004;entryY=0.19;entryDx=0;entryDy=0;entryPerimeter=0;" target="IjoorjUNgzUWlrzSo2vu-37" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="895" />
+              <mxPoint x="290" y="915" />
+            </Array>
+            <mxPoint x="290" y="815" as="sourcePoint" />
+            <mxPoint x="370" y="875" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-40" edge="1" parent="1" source="IjoorjUNgzUWlrzSo2vu-42" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=0.497;exitY=1.011;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="169.8" y="245" />
+            </Array>
+            <mxPoint x="169.8" y="195" as="sourcePoint" />
+            <mxPoint x="169.8" y="275" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-41" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="index()" vertex="1">
+          <mxGeometry height="100" width="160" x="90" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-42" parent="IjoorjUNgzUWlrzSo2vu-41" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="the main function.&lt;br&gt;gets city name, pulls api, filter the data and send if to the HTML or return errors" vertex="1">
+          <mxGeometry height="74" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-5" parent="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="do some basic testing to the input (works with pytesting)" vertex="1">
+          <mxGeometry height="54" width="160" x="330" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="IjoorjUNgzUWlrzSo2vu-46" parent="1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="PyT&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;est&lt;/span&gt;" vertex="1">
+          <mxGeometry height="27" width="70" x="400" y="75" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
