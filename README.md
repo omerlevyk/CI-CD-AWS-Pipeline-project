@@ -1,4 +1,3 @@
-
 # AWS EKS Deployment Project
 
 <div align="center">
