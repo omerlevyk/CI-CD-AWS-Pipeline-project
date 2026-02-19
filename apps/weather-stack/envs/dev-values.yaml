@@ -1,7 +1,7 @@
 weather:
   replicas: 1
   image:
-    repository: omerlevyk/weather_app_private
+    repository: omerlevyk/weather_app-app
     tag: v1.0.56-20260219-130353
     pullPolicy: IfNotPresent
   service:
