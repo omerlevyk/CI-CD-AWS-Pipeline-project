@@ -171,9 +171,6 @@ JSON
     }
 
     stage("Deploy") {
-      when {
-        branch 'main'
-      }
       steps {
         container('jnlp') {
           withCredentials([
