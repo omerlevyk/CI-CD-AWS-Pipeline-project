@@ -2,7 +2,7 @@ weather:
   replicas: 1
   image:
     repository: omerlevyk/weather_app_private
-    tag: v1.0.1-20260218-1
+    tag: v1.0.56-20260219-130353
     pullPolicy: IfNotPresent
   service:
     type: NodePort
