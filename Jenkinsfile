@@ -1,7 +1,6 @@
 pipeline {
   agent {
     kubernetes {
-      cloud 'kubernetes'
       defaultContainer 'shell'
       yaml '''
 apiVersion: v1
