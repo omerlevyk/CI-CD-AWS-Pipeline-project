@@ -3,20 +3,23 @@ pipeline {
 
   stages {
 
+    stage("EKS connectivity check") {
+      steps {
+        sh '''
+          set -x
+          getent hosts 62AE89267DEAB322E7F39FBE25CE8319.gr7.us-east-1.eks.amazonaws.com || true
+          curl -vk --max-time 10 https://62AE89267DEAB322E7F39FBE25CE8319.gr7.us-east-1.eks.amazonaws.com/version || true
+        '''
+      }
+    }
+
     stage("Connetion Test") {
       steps {
         echo "[CONNETION TEST] Jenkinsfile found and pipeline is running"
       }
     }
 
-    stage("Clean") {
-      steps {
-        deleteDir()
-        echo "[CLEAN] workspase directory hes been deleted"
-      }
-    }
-
-    stage("Checkout") {
+    stage("Full Checkout") {
       steps {
         checkout scm
       }
@@ -38,7 +41,7 @@ pipeline {
       steps {
         sh '''
         . venv/bin/activate
-        pylint --fail-under=5 python_app/
+        pylint --fail-under=7 python_app/
         '''
       }
     }
