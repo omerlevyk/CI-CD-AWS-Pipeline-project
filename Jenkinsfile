@@ -175,7 +175,38 @@ JSON
         branch 'main'
       }
       steps {
-        echo "Deploy stage placeholder for GitOps/SSH deployment."
+        container('jnlp') {
+          withCredentials([
+            usernamePassword(
+              credentialsId: 'gitlab-token',
+              usernameVariable: 'GL_USER',
+              passwordVariable: 'GL_TOKEN'
+            )
+          ]) {
+            sh '''
+              set -eu
+
+              rm -rf gitops-deploy
+              git clone "https://${GL_USER}:${GL_TOKEN}@gitlab.omerlevy03.com/omerlevyk/gitops.git" gitops-deploy
+              cd gitops-deploy
+
+              git config user.name "jenkins-ci"
+              git config user.email "jenkins@omerlevy03.com"
+
+              VALUES_FILE="apps/weather-stack/envs/dev-values.yaml"
+              sed -i -E "s|(^[[:space:]]*tag:[[:space:]]*).*$|\\1${RELEASE_TAG}|" "${VALUES_FILE}"
+
+              if git diff --quiet -- "${VALUES_FILE}"; then
+                echo "No deploy change detected in ${VALUES_FILE}"
+                exit 0
+              fi
+
+              git add "${VALUES_FILE}"
+              git commit -m "ci(gitops): deploy weather image ${RELEASE_TAG} from ${JOB_NAME} #${BUILD_NUMBER}"
+              git push origin main
+            '''
+          }
+        }
       }
     }
   }
