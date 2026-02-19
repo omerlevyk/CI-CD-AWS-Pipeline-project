@@ -18,6 +18,14 @@ spec:
       - name: weather
         image: "{{ .Values.weather.image.repository }}:{{ .Values.weather.image.tag }}"
         imagePullPolicy: {{ .Values.weather.image.pullPolicy }}
+        {{- if .Values.weather.probes.enabled }}
+        startupProbe:
+{{ toYaml .Values.weather.probes.startup | indent 10 }}
+        readinessProbe:
+{{ toYaml .Values.weather.probes.readiness | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.weather.probes.liveness | indent 10 }}
+        {{- end }}
         env:
         - name: BG_COLOR
           valueFrom:

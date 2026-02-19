@@ -4,6 +4,32 @@ weather:
     repository: omerlevyk/weather_app-app
     tag: v1.0.56-20260219-130353
     pullPolicy: IfNotPresent
+  probes:
+    enabled: true
+    startup:
+      httpGet:
+        path: /
+        port: 5000
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 2
+      failureThreshold: 20
+    readiness:
+      httpGet:
+        path: /
+        port: 5000
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 2
+      failureThreshold: 3
+    liveness:
+      httpGet:
+        path: /
+        port: 5000
+      initialDelaySeconds: 20
+      periodSeconds: 15
+      timeoutSeconds: 2
+      failureThreshold: 3
   service:
     type: NodePort
     port: 80
