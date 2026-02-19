@@ -53,7 +53,7 @@ solitaire:
 configMaps:
   blue:
     name: bg-color-blue
-    bgColor: blue
+    bgColor: "#a7d8ff"
   green:
     name: bg-color-green
     bgColor: green
