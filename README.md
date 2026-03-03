@@ -1,32 +1,27 @@
-# GitOps Repo
+# GitOps Repository
 
-This repository stores Kubernetes application deployment state for ArgoCD.
+This repository is the deployment source of truth consumed by ArgoCD.
 
-## ArgoCD Source Of Truth
-
-Document these values and keep them updated:
-
+## Current Source Configuration
 - Repo URL: `https://gitlab.omerlevy03.com/omerlevyk/gitops.git`
-- Branch: `main`
+- Tracked branch: `main`
 - Chart path: `apps/weather-stack/chart`
-- Values file (dev): `apps/weather-stack/envs/dev-values.yaml`
+- Dev values file: `apps/weather-stack/envs/dev-values.yaml`
 
 ## Structure
+- `apps/weather-stack/chart`: Helm chart templates.
+- `apps/weather-stack/envs`: environment values files.
+- `argocd/projects`: AppProject manifests.
+- `argocd/applications`: ArgoCD Application manifests.
+- `argocd/secrets`: repo credential templates (no real secrets in git).
 
-- `apps/weather-stack/chart`: Helm chart for weather + solitaire stack
-- `apps/weather-stack/envs/dev-values.yaml`: dev environment values
-- `argocd/projects`: ArgoCD AppProject manifests
-- `argocd/applications`: ArgoCD Application manifests
-
-## Apply
-
+## Deploy ArgoCD Manifests
 ```bash
 kubectl apply -f argocd/projects/apps-project.yaml
 kubectl apply -f argocd/applications/weather-stack-dev.yaml
 ```
 
 ## Notes
-
-1. Set `repoURL` in `argocd/applications/weather-stack-dev.yaml`.
-2. ArgoCD should own app deployment state from this repo.
-3. Terraform in `infra/` should not own app Helm releases.
+- Keep real tokens/passwords out of Git.
+- App runtime changes should be committed here and synced by ArgoCD.
+- Terraform should not own application Helm release state.

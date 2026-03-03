@@ -68,7 +68,7 @@ persistence:
     allowVolumeExpansion: true
     parameters:
       provisioningMode: efs-ap
-      fileSystemId: fs-02f7530e598c97d62
+      fileSystemId: fs-096ae29c4f24bb760
       directoryPerms: "700"
   pvc:
     name: weather-history-pvc-efs-v1
@@ -83,4 +83,4 @@ ingress:
   loadBalancerName: apps-ingress
   weatherHost: weather.omerlevy03.com
   solitaireHost: solitaire.omerlevy03.com
-  certificateArn: arn:aws:acm:us-east-1:960828421635:certificate/354e07ad-76e2-4921-a459-85fe48702d1f
+  certificateArn: arn:aws:acm:us-east-1:516608940168:certificate/3866e6bc-32e6-4afe-af39-6101563fee3b
