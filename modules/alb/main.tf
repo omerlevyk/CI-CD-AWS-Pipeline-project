@@ -10,7 +10,7 @@ resource "aws_lb_target_group" "gitlab" {
   name_prefix = "gl-"
   port        = 80
   protocol    = "HTTP"
-  vpc_id   = var.vpc_id
+  vpc_id      = var.vpc_id
 
   lifecycle {
     create_before_destroy = true
@@ -30,9 +30,9 @@ resource "aws_lb_target_group" "gitlab" {
 
 resource "aws_lb_target_group" "jenkins" {
   name_prefix = "jk-"
-  port     = 8080
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
+  port        = 8080
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
 
   lifecycle {
     create_before_destroy = true

@@ -1,6 +1,14 @@
 terraform {
   required_version = ">= 1.5.0"
 
+  backend "s3" {
+    bucket         = "omerlevyk-tf-state-516608940168"
+    key            = "infra/envs/dev/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "terraform-locks"
+    encrypt        = true
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -33,24 +41,32 @@ provider "cloudflare" {
 }
 
 data "aws_eks_cluster" "this" {
-  name = module.infrastructure.cluster_name
+  count = var.enable_k8s_providers ? 1 : 0
+  name  = module.infrastructure.cluster_name
 }
 
 data "aws_eks_cluster_auth" "this" {
-  name = module.infrastructure.cluster_name
+  count = var.enable_k8s_providers ? 1 : 0
+  name  = module.infrastructure.cluster_name
+}
+
+locals {
+  eks_host  = var.enable_k8s_providers ? data.aws_eks_cluster.this[0].endpoint : "https://example.invalid"
+  eks_ca    = var.enable_k8s_providers ? base64decode(data.aws_eks_cluster.this[0].certificate_authority[0].data) : ""
+  eks_token = var.enable_k8s_providers ? data.aws_eks_cluster_auth.this[0].token : ""
 }
 
 provider "kubernetes" {
-  host                   = data.aws_eks_cluster.this.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.this.token
+  host                   = local.eks_host
+  cluster_ca_certificate = local.eks_ca
+  token                  = local.eks_token
 }
 
 provider "helm" {
   kubernetes {
-    host                   = data.aws_eks_cluster.this.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
-    token                  = data.aws_eks_cluster_auth.this.token
+    host                   = local.eks_host
+    cluster_ca_certificate = local.eks_ca
+    token                  = local.eks_token
   }
 }
 

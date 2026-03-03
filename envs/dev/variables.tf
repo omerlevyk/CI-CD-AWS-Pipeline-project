@@ -108,7 +108,24 @@ variable "allowed_client_cidr" {
   description = "Public client CIDR allowed to access the shared ALB (for example 203.0.113.10/32)"
 }
 
+variable "vpn_allowed_cidrs" {
+  type        = list(string)
+  description = "VPN egress CIDRs allowed to access ALB + EKS API. If empty, `allowed_client_cidr` is used."
+  default     = []
+}
+
 variable "manage_alb_controller_with_terraform" {
+  type    = bool
+  default = true
+}
+
+variable "enable_k8s_providers" {
+  type        = bool
+  default     = true
+  description = "If false, skip EKS cluster data lookups used by kubernetes/helm providers."
+}
+
+variable "create_jenkins_agent" {
   type    = bool
   default = true
 }

@@ -41,6 +41,11 @@ variable "jenkins_agent_instance_type" {
   default = "t3.medium"
 }
 
+variable "create_jenkins_agent" {
+  type    = bool
+  default = true
+}
+
 variable "key_name" {
   type    = string
   default = ""
@@ -54,4 +59,10 @@ variable "weather_node_port" {
 variable "alb_ingress_cidrs" {
   type    = list(string)
   default = ["0.0.0.0/0"]
+}
+
+variable "eks_api_ingress_cidrs" {
+  type        = list(string)
+  description = "CIDRs allowed to access the public EKS API endpoint."
+  default     = ["0.0.0.0/0"]
 }

@@ -8,9 +8,11 @@ module "infrastructure" {
   gitlab_instance_type   = var.gitlab_instance_type
   jenkins_controller_ami = var.jenkins_controller_ami
   jenkins_agent_ami      = var.jenkins_agent_ami
+  create_jenkins_agent   = var.create_jenkins_agent
   key_name               = var.key_name
   weather_node_port      = var.weather_node_port
-  alb_ingress_cidrs      = [var.allowed_client_cidr]
+  alb_ingress_cidrs      = local.effective_alb_ingress_cidrs
+  eks_api_ingress_cidrs  = local.effective_vpn_cidrs
 }
 
 module "alb" {

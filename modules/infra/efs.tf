@@ -29,7 +29,11 @@ resource "aws_efs_file_system" "weather_history" {
 }
 
 resource "aws_efs_mount_target" "weather_history" {
-  for_each = toset(module.vpc.private_subnet_ids)
+  # Use static keys so Terraform can plan even when subnet IDs are unknown until apply.
+  for_each = {
+    subnet0 = module.vpc.private_subnet_ids[0]
+    subnet1 = module.vpc.private_subnet_ids[1]
+  }
 
   file_system_id  = aws_efs_file_system.weather_history.id
   subnet_id       = each.value
