@@ -56,6 +56,86 @@ pipeline {
       }
     }
 
+    stage("Load Runtime Secrets") {
+      steps {
+        container('python') {
+          sh '''
+            set -eu
+            ENV_FILE="$WORKSPACE/.vault_env"
+            : > "$ENV_FILE"
+            chmod 600 "$ENV_FILE"
+
+            if [ -z "${VAULT_ADDR:-}" ] || [ -z "${VAULT_ROLE_ID:-}" ] || [ -z "${VAULT_SECRET_ID:-}" ]; then
+              echo "Vault env vars not fully set. Using Jenkins credentials fallback."
+              exit 0
+            fi
+
+            python3 - <<'PY'
+import json
+import os
+import shlex
+import sys
+import urllib.request
+
+vault_addr = os.environ.get("VAULT_ADDR", "").rstrip("/")
+role_id = os.environ.get("VAULT_ROLE_ID", "")
+secret_id = os.environ.get("VAULT_SECRET_ID", "")
+namespace = os.environ.get("VAULT_NAMESPACE", "")
+env_file = os.path.join(os.environ["WORKSPACE"], ".vault_env")
+
+def req(method, path, payload=None, token=None):
+    url = f"{vault_addr}{path}"
+    data = None if payload is None else json.dumps(payload).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    if namespace:
+        headers["X-Vault-Namespace"] = namespace
+    if token:
+        headers["X-Vault-Token"] = token
+    r = urllib.request.Request(url, data=data, headers=headers, method=method)
+    with urllib.request.urlopen(r, timeout=20) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+def first_value(d, keys):
+    for k in keys:
+        v = d.get(k)
+        if v:
+            return str(v)
+    return ""
+
+try:
+    login = req("POST", "/v1/auth/approle/login", {"role_id": role_id, "secret_id": secret_id})
+    client_token = login["auth"]["client_token"]
+
+    dh = req("GET", "/v1/kv/data/dev/jenkins/dockerhub", token=client_token)["data"]["data"]
+    gl = req("GET", "/v1/kv/data/dev/jenkins/gitlab-token", token=client_token)["data"]["data"]
+
+    dh_user = first_value(dh, ["username", "user", "dh_user"])
+    dh_token = first_value(dh, ["token", "password", "dh_token"])
+    gl_user = first_value(gl, ["username", "user", "gl_user"])
+    gl_token = first_value(gl, ["token", "password", "gl_token"])
+
+    with open(env_file, "w", encoding="utf-8") as f:
+        if dh_user:
+            f.write(f"export VAULT_DH_USER={shlex.quote(dh_user)}\\n")
+        if dh_token:
+            f.write(f"export VAULT_DH_TOKEN={shlex.quote(dh_token)}\\n")
+        if gl_user:
+            f.write(f"export VAULT_GL_USER={shlex.quote(gl_user)}\\n")
+        if gl_token:
+            f.write(f"export VAULT_GL_TOKEN={shlex.quote(gl_token)}\\n")
+
+    print("Loaded runtime secrets from Vault.")
+except Exception as exc:
+    print(f"Vault fetch failed, using Jenkins credentials fallback: {exc}")
+    with open(env_file, "w", encoding="utf-8") as f:
+        f.write("")
+    sys.exit(0)
+PY
+          '''
+        }
+      }
+    }
+
     stage("Setup venv") {
       steps {
         container('python') {
@@ -95,6 +175,15 @@ pipeline {
           ]) {
             sh '''
               set -eux
+              if [ -f "$WORKSPACE/.vault_env" ]; then . "$WORKSPACE/.vault_env"; fi
+              if [ -n "${VAULT_DH_USER:-}" ] && [ -n "${VAULT_DH_TOKEN:-}" ]; then
+                DH_USER="$VAULT_DH_USER"
+                DH_TOKEN="$VAULT_DH_TOKEN"
+                echo "Using Vault runtime DockerHub credentials"
+              else
+                echo "Using Jenkins credential store for DockerHub"
+              fi
+
               mkdir -p /kaniko/.docker
               cat > /kaniko/.docker/config.json <<JSON
               {
@@ -144,6 +233,15 @@ pipeline {
           ]) {
             sh '''
               set -eux
+              if [ -f "$WORKSPACE/.vault_env" ]; then . "$WORKSPACE/.vault_env"; fi
+              if [ -n "${VAULT_DH_USER:-}" ] && [ -n "${VAULT_DH_TOKEN:-}" ]; then
+                DH_USER="$VAULT_DH_USER"
+                DH_TOKEN="$VAULT_DH_TOKEN"
+                echo "Using Vault runtime DockerHub credentials"
+              else
+                echo "Using Jenkins credential store for DockerHub"
+              fi
+
               mkdir -p /kaniko/.docker
               cat > /kaniko/.docker/config.json <<JSON
               {
@@ -182,6 +280,14 @@ JSON
           ]) {
             sh '''
               set -eu
+              if [ -f "$WORKSPACE/.vault_env" ]; then . "$WORKSPACE/.vault_env"; fi
+              if [ -n "${VAULT_GL_USER:-}" ] && [ -n "${VAULT_GL_TOKEN:-}" ]; then
+                GL_USER="$VAULT_GL_USER"
+                GL_TOKEN="$VAULT_GL_TOKEN"
+                echo "Using Vault runtime GitLab credentials"
+              else
+                echo "Using Jenkins credential store for GitLab"
+              fi
 
               rm -rf gitops-deploy
               git clone "https://${GL_USER}:${GL_TOKEN}@gitlab.omerlevy03.com/omerlevyk/gitops.git" gitops-deploy
@@ -200,7 +306,7 @@ JSON
 
               git add "${VALUES_FILE}"
               git commit -m "ci(gitops): deploy weather image ${RELEASE_TAG} from ${JOB_NAME} #${BUILD_NUMBER}"
-              git push origin main
+              git push origin HEAD:dev
             '''
           }
         }
