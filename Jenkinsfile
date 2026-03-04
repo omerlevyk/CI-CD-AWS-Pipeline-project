@@ -48,7 +48,11 @@ pipeline {
     stage("EKS connectivity check") {
       steps {
         container('python') {
-          sh 'bash scripts/ci/eks_connectivity_check.sh'
+          sh '''
+            set -x
+            getent hosts "${EKS_API_ENDPOINT}" || true
+            wget -qO- --timeout=10 "https://${EKS_API_ENDPOINT}/version" || true
+          '''
         }
         echo "[CONNETION TEST] Jenkinsfile found and pipeline is running"
       }
@@ -63,7 +67,9 @@ pipeline {
     stage("Secret Scan (Git)") {
       steps {
         container('gitleaks') {
-          sh 'bash scripts/ci/secret_scan_git.sh'
+          sh '''
+            set -x && gitleaks detect --source . --redact --no-banner --exit-code 1
+          '''
         }
       }
     }
@@ -79,7 +85,15 @@ pipeline {
     stage("Setup venv") {
       steps {
         container('python') {
-          sh 'bash scripts/ci/setup_venv.sh'
+          sh '''
+            set -eux
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r python_app/requirements.txt
+            pip install pylint
+            pip install bandit
+          '''
         }
       }
     }
@@ -87,7 +101,11 @@ pipeline {
     stage("Pylint") {
       steps {
         container('python') {
-          sh 'bash scripts/ci/run_pylint.sh'
+          sh '''
+            set -eux
+            . venv/bin/activate
+            pylint --fail-under=7.5 python_app/
+          '''
         }
       }
     }
@@ -98,7 +116,11 @@ pipeline {
       }
       steps {
         container('python') {
-          sh 'bash scripts/ci/run_bandit.sh'
+          sh '''
+            set -eux
+            . venv/bin/activate
+            bandit -r python_app -ll -iii
+          '''
         }
       }
     }
@@ -106,7 +128,11 @@ pipeline {
     stage("Dependency Scan (Critical threshold)") {
       steps {
         container('trivy') {
-          sh 'bash scripts/ci/scan_dependencies.sh'
+          sh '''
+            set -eux
+            trivy fs --scanners vuln --severity CRITICAL \
+              --exit-code 1 --no-progress python_app
+          '''
         }
       }
     }
@@ -114,7 +140,12 @@ pipeline {
     stage("Dockerfile Scan") {
       steps {
         container('trivy') {
-          sh 'bash scripts/ci/scan_dockerfiles.sh'
+          sh '''
+            set -eux
+            trivy config --severity HIGH,CRITICAL \
+              --exit-code 1 --no-progress \
+              python_app/Dockerfile nginx/Dockerfile
+          '''
         }
       }
     }
@@ -203,7 +234,9 @@ pipeline {
   post {
     cleanup {
       container('python') {
-        sh 'bash scripts/ci/pre_cleanup_permissions.sh'
+        sh '''
+          set +e && chmod -R a+rwX "$WORKSPACE" 2>/dev/null
+        '''
       }
       deleteDir()
       echo "[CLEAN] workspase directory hes been deleted"
