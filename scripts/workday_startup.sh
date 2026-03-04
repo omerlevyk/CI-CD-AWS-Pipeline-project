@@ -36,16 +36,47 @@ DRY_RUN="false"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --profile) PROFILE="$2"; shift 2 ;;
-    --region) REGION="$2"; shift 2 ;;
-    --cluster) CLUSTER_NAME="$2"; shift 2 ;;
-    --min) MIN_SIZE="$2"; shift 2 ;;
-    --desired) DESIRED_SIZE="$2"; shift 2 ;;
-    --max) MAX_SIZE="$2"; shift 2 ;;
-    --wait-seconds) WAIT_SECONDS="$2"; shift 2 ;;
-    --dry-run) DRY_RUN="true"; shift ;;
-    -h|--help) usage; exit 0 ;;
-    *) echo "Unknown argument: $1" >&2; usage; exit 1 ;;
+  --profile)
+    PROFILE="$2"
+    shift 2
+    ;;
+  --region)
+    REGION="$2"
+    shift 2
+    ;;
+  --cluster)
+    CLUSTER_NAME="$2"
+    shift 2
+    ;;
+  --min)
+    MIN_SIZE="$2"
+    shift 2
+    ;;
+  --desired)
+    DESIRED_SIZE="$2"
+    shift 2
+    ;;
+  --max)
+    MAX_SIZE="$2"
+    shift 2
+    ;;
+  --wait-seconds)
+    WAIT_SECONDS="$2"
+    shift 2
+    ;;
+  --dry-run)
+    DRY_RUN="true"
+    shift
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown argument: $1" >&2
+    usage
+    exit 1
+    ;;
   esac
 done
 
@@ -64,8 +95,8 @@ run() {
 find_ec2_targets() {
   "${AWS[@]}" ec2 describe-instances \
     --filters \
-      Name=instance-state-name,Values=stopped,stopping \
-      Name=tag:Name,Values='*gitlab*','*jenkins*' \
+    Name=instance-state-name,Values=stopped,stopping \
+    Name=tag:Name,Values='*gitlab*','*jenkins*' \
     --query 'Reservations[].Instances[].InstanceId' \
     --output text 2>/dev/null || true
 }
@@ -82,7 +113,7 @@ start_ec2_targets() {
 
   if [[ "$DRY_RUN" == "false" && "$WAIT_SECONDS" -gt 0 ]]; then
     log "Waiting (max ${WAIT_SECONDS}s) for EC2 instances to be running..."
-    timeout "${WAIT_SECONDS}" "${AWS[@]}" ec2 wait instance-running --instance-ids $ids || \
+    timeout "${WAIT_SECONDS}" "${AWS[@]}" ec2 wait instance-running --instance-ids $ids ||
       log "EC2 start wait timed out (requests were still sent)"
   fi
 }
@@ -103,7 +134,7 @@ scale_nodegroups_up() {
   if [[ "$DRY_RUN" == "false" && "$WAIT_SECONDS" -gt 0 ]]; then
     for ng in $ngs; do
       log "Waiting (max ${WAIT_SECONDS}s) for nodegroup update to settle: $ng"
-      timeout "${WAIT_SECONDS}" "${AWS[@]}" eks wait nodegroup-active --cluster-name "$CLUSTER_NAME" --nodegroup-name "$ng" || \
+      timeout "${WAIT_SECONDS}" "${AWS[@]}" eks wait nodegroup-active --cluster-name "$CLUSTER_NAME" --nodegroup-name "$ng" ||
         log "Nodegroup wait timed out for $ng (update request was still sent)"
     done
   fi
@@ -117,4 +148,3 @@ start_ec2_targets "$ids"
 scale_nodegroups_up
 
 log "Startup script finished"
-
