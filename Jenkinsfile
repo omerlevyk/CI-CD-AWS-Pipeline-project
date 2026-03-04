@@ -32,6 +32,7 @@ pipeline {
     NGINX_IMAGE_REPO = 'omerlevyk/weather_app-nginx'
     APP_IMAGE_LATEST = "${APP_IMAGE_REPO}:latest"
     NGINX_IMAGE_LATEST = "${NGINX_IMAGE_REPO}:latest"
+    EKS_API_ENDPOINT = 'BC56FC1FAC7BA3C30783B8DF1A246F09.yl4.us-east-1.eks.amazonaws.com'
   }
 
   stages {
@@ -41,8 +42,8 @@ pipeline {
         container('python') {
           sh '''
             set -x
-            getent hosts 62AE89267DEAB322E7F39FBE25CE8319.gr7.us-east-1.eks.amazonaws.com || true
-            wget -qO- --timeout=10 https://62AE89267DEAB322E7F39FBE25CE8319.gr7.us-east-1.eks.amazonaws.com/version || true
+            getent hosts "${EKS_API_ENDPOINT}" || true
+            wget -qO- --timeout=10 "https://${EKS_API_ENDPOINT}/version" || true
           '''
         }
         echo "[CONNETION TEST] Jenkinsfile found and pipeline is running"
@@ -73,7 +74,7 @@ pipeline {
             set -eu
             ENV_FILE="$WORKSPACE/.vault_env"
             : > "$ENV_FILE"
-            chmod 600 "$ENV_FILE"
+            chmod 644 "$ENV_FILE"
 
             if [ -z "${VAULT_ADDR:-}" ] || [ -z "${VAULT_ROLE_ID:-}" ] || [ -z "${VAULT_SECRET_ID:-}" ]; then
               echo "Vault env vars not fully set. Using Jenkins credentials fallback."
@@ -326,6 +327,12 @@ JSON
 
   post {
     cleanup {
+      container('python') {
+        sh '''
+          set +e
+          chmod -R a+rwX "$WORKSPACE" 2>/dev/null
+        '''
+      }
       deleteDir()
       echo "[CLEAN] workspase directory hes been deleted"
     }
