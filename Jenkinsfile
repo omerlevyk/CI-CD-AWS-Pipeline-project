@@ -23,6 +23,10 @@ pipeline {
             image: zricethezav/gitleaks:v8.24.2
             command: ["sh", "-c", "cat"]
             tty: true
+          - name: trivy
+            image: aquasec/trivy:0.57.1
+            command: ["sh", "-c", "cat"]
+            tty: true
       '''
     }
   }
@@ -169,6 +173,22 @@ PY
             set -eux
             . venv/bin/activate
             pylint --fail-under=7.5 python_app/
+          '''
+        }
+      }
+    }
+
+    stage("Dependency Scan (Critical threshold)") {
+      steps {
+        container('trivy') {
+          sh '''
+            set -eux
+            trivy fs \
+              --scanners vuln \
+              --severity CRITICAL \
+              --exit-code 1 \
+              --no-progress \
+              python_app
           '''
         }
       }
