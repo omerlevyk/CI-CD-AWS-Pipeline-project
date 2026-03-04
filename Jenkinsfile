@@ -215,6 +215,26 @@ pipeline {
       }
     }
 
+    stage("Verify Container Signatures") {
+      when {
+        branch 'main'
+      }
+      steps {
+        container('cosign') {
+          withCredentials([
+            usernamePassword(
+              credentialsId: 'dockerhub',
+              usernameVariable: 'DH_USER',
+              passwordVariable: 'DH_TOKEN'
+            ),
+            file(credentialsId: 'cosign-public-key', variable: 'COSIGN_PUBLIC_KEY_FILE')
+          ]) {
+            sh 'bash scripts/ci/verify_signatures.sh'
+          }
+        }
+      }
+    }
+
     stage("Deploy") {
       steps {
         container('jnlp') {
