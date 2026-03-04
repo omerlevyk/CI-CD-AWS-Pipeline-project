@@ -19,6 +19,10 @@ pipeline {
             image: gcr.io/kaniko-project/executor:v1.23.2-debug
             command: ["cat"]
             tty: true
+          - name: gitleaks
+            image: zricethezav/gitleaks:v8.24.2
+            command: ["sh", "-c", "cat"]
+            tty: true
       '''
     }
   }
@@ -41,11 +45,6 @@ pipeline {
             wget -qO- --timeout=10 https://62AE89267DEAB322E7F39FBE25CE8319.gr7.us-east-1.eks.amazonaws.com/version || true
           '''
         }
-      }
-    }
-
-    stage("Connetion Test") {
-      steps {
         echo "[CONNETION TEST] Jenkinsfile found and pipeline is running"
       }
     }
@@ -53,6 +52,17 @@ pipeline {
     stage("Full Checkout") {
       steps {
         checkout scm
+      }
+    }
+
+    stage("Secret Scan (Git)") {
+      steps {
+        container('gitleaks') {
+          sh '''
+            set -eux
+            gitleaks detect --source . --redact --no-banner --exit-code 1
+          '''
+        }
       }
     }
 
