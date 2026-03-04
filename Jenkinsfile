@@ -68,7 +68,8 @@ pipeline {
       steps {
         container('gitleaks') {
           sh '''
-            set -x && gitleaks detect --source . --redact --no-banner --exit-code 1
+            set -x
+            gitleaks detect --source . --redact --no-banner --exit-code 1
           '''
         }
       }
@@ -235,7 +236,8 @@ pipeline {
     cleanup {
       container('python') {
         sh '''
-          set +e && chmod -R a+rwX "$WORKSPACE" 2>/dev/null
+          set +e
+          chmod -R a+rwX "$WORKSPACE" 2>/dev/null
         '''
       }
       deleteDir()
