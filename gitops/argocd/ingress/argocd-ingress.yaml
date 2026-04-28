@@ -9,7 +9,7 @@ metadata:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
     # Restrict ArgoCD ALB ingress to VPN egress CIDRs.
     alb.ingress.kubernetes.io/inbound-cidrs: 213.57.121.34/32
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:516608940168:certificate/3866e6bc-32e6-4afe-af39-6101563fee3b
+    alb.ingress.kubernetes.io/certificate-arn: env.CERTIFICATE-ARM 
     alb.ingress.kubernetes.io/backend-protocol: HTTP
     alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/healthcheck-path: /healthz

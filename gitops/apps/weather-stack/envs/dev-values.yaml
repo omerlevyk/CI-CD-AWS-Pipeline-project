@@ -83,4 +83,4 @@ ingress:
   loadBalancerName: apps-ingress
   weatherHost: weather.omerlevy03.com
   solitaireHost: solitaire.omerlevy03.com
-  certificateArn: arn:aws:acm:us-east-1:516608940168:certificate/3866e6bc-32e6-4afe-af39-6101563fee3b
+  certificateArn: env.CERTIFICATEARN
