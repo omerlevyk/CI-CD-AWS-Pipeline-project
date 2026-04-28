@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-service
+  labels:
+    app: weather
+spec:
+  type: {{ .Values.weather.service.type }}
+  selector:
+    app: weather
+  ports:
+  - port: {{ .Values.weather.service.port }}
+    targetPort: {{ .Values.weather.service.targetPort }}
+    protocol: TCP
+    nodePort: {{ .Values.weather.service.nodePort }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: solitaire-service
+  labels:
+    app: solitaire
+spec:
+  type: {{ .Values.solitaire.service.type }}
+  selector:
+    app: solitaire
+  ports:
+  - port: {{ .Values.solitaire.service.port }}
+    targetPort: {{ .Values.solitaire.service.targetPort }}
+    protocol: TCP
+    nodePort: {{ .Values.solitaire.service.nodePort }}
