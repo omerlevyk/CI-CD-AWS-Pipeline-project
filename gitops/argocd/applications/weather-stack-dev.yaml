@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: weather-stack-dev
+  namespace: argocd
+spec:
+  project: apps
+  source:
+    repoURL: https://gitlab.omerlevy03.com/omerlevyk/gitops.git
+    targetRevision: main
+    path: apps/weather-stack/chart
+    helm:
+      valueFiles:
+        - ../envs/dev-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-deployment
+  labels:
+    app: weather
+spec:
+  replicas: {{ .Values.weather.replicas }}
+  selector:
+    matchLabels:
+      app: weather
+  template:
+    metadata:
+      labels:
+        app: weather
+    spec:
+      containers:
+      - name: weather
+        image: "{{ .Values.weather.image.repository }}:{{ .Values.weather.image.tag }}"
+        imagePullPolicy: {{ .Values.weather.image.pullPolicy }}
+        {{- if .Values.weather.probes.enabled }}
+        startupProbe:
+{{ toYaml .Values.weather.probes.startup | indent 10 }}
+        readinessProbe:
+{{ toYaml .Values.weather.probes.readiness | indent 10 }}
+        livenessProbe:
+{{ toYaml .Values.weather.probes.liveness | indent 10 }}
+        {{- end }}
+        env:
+        - name: BG_COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.weather.bgColorConfigMap }}
+              key: BG_COLOR
+        ports:
+        - containerPort: {{ .Values.weather.service.targetPort }}
+        volumeMounts:
+        - name: weather-history
+          mountPath: {{ .Values.weather.historyMountPath }}
+      volumes:
+      - name: weather-history
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.pvc.name }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solitaire-deployment
+  labels:
+    app: solitaire
+spec:
+  replicas: {{ .Values.solitaire.replicas }}
+  selector:
+    matchLabels:
+      app: solitaire
+  template:
+    metadata:
+      labels:
+        app: solitaire
+    spec:
+      containers:
+      - name: solitaire
+        image: "{{ .Values.solitaire.image.repository }}:{{ .Values.solitaire.image.tag }}"
+        imagePullPolicy: {{ .Values.solitaire.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.solitaire.service.targetPort }}

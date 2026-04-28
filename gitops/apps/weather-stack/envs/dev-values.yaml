@@ -1,0 +1,86 @@
+weather:
+  replicas: 1
+  image:
+    repository: omerlevyk/weather_app-app
+    tag: v1.0.56-20260219-130353
+    pullPolicy: IfNotPresent
+  probes:
+    enabled: true
+    startup:
+      httpGet:
+        path: /
+        port: 5000
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 2
+      failureThreshold: 20
+    readiness:
+      httpGet:
+        path: /
+        port: 5000
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 2
+      failureThreshold: 3
+    liveness:
+      httpGet:
+        path: /
+        port: 5000
+      initialDelaySeconds: 20
+      periodSeconds: 15
+      timeoutSeconds: 2
+      failureThreshold: 3
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 5000
+    nodePort: 32300
+  bgColorConfigMap: bg-color-blue
+  historyMountPath: /app/history
+
+solitaire:
+  replicas: 1
+  image:
+    repository: chimenesjr/solitaire
+    tag: nginx
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 80
+    nodePort: 32400
+
+configMaps:
+  blue:
+    name: bg-color-blue
+    bgColor: "#a7d8ff"
+  green:
+    name: bg-color-green
+    bgColor: green
+
+persistence:
+  enabled: true
+  storageClass:
+    name: weather-efs-sc-v1
+    isDefaultClass: false
+    provisioner: efs.csi.aws.com
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      provisioningMode: efs-ap
+      fileSystemId: fs-096ae29c4f24bb760
+      directoryPerms: "700"
+  pvc:
+    name: weather-history-pvc-efs-v1
+    storageClass: weather-efs-sc-v1
+    size: 5Gi
+    accessModes:
+      - ReadWriteMany
+
+ingress:
+  enabled: true
+  className: alb
+  loadBalancerName: apps-ingress
+  weatherHost: weather.omerlevy03.com
+  solitaireHost: solitaire.omerlevy03.com
+  certificateArn: arn:aws:acm:us-east-1:516608940168:certificate/3866e6bc-32e6-4afe-af39-6101563fee3b
