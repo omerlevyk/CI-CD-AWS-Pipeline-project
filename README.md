@@ -62,7 +62,7 @@ The infrastructure is designed to be scalable, highly available, and production-
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](./docs/architecture-diagram.png)
+![Architecture Diagram](./docs/diagrams/project_diagram.png)
 
 ### Network Architecture
 
